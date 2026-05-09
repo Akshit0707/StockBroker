@@ -28,26 +28,9 @@ A full-stack stock trading simulation app with a **frontend**, **backend**, **Po
 ### Backend
 Create `backend/.env`:
 
-```env
-DB_USER=postgres
-DB_PASSWORD=postgres123
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=stock_app
-DB_SKIP=false
-
-DATABASE_URL=postgresql://postgres:postgres123@localhost:5432/stock_app
-JWT_SECRET=your_secret_here
-PORT=5001
-REDIS_URL=redis://localhost:6379
-```
-
 ### Frontend
 Create `frontend/.env.local` if needed:
 
-```env
-NEXT_PUBLIC_API_URL=http://localhost:5001
-```
 
 ## Setup
 
