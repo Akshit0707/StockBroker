@@ -1,35 +1,29 @@
-# Build frontend
-FROM node:20 AS frontend-build
-WORKDIR /app/frontend
-COPY frontend/package*.json ./
-RUN npm install
-COPY frontend/ ./
-# ensure public exists so later COPY won't fail
-RUN mkdir -p public
-RUN npm run build
-
-# Build backend
-FROM node:20 AS backend-build
-WORKDIR /app/backend
-COPY backend/package*.json ./
-RUN npm install
-COPY backend/ ./
-# generate Prisma client so @prisma/client is available in the image
-RUN npx prisma generate --schema=./prisma/schema.prisma
-
-# Runtime
-FROM node:20
+FROM node:20 AS deps
 WORKDIR /app
 
-# Copy backend
-COPY --from=backend-build /app/backend ./backend
+COPY package*.json ./
+RUN npm install
 
-# Copy frontend build to backend public folder
-RUN mkdir -p backend/public
-COPY --from=frontend-build /app/frontend/.next ./backend/public/.next
-COPY --from=frontend-build /app/frontend/public ./backend/public
+FROM node:20 AS builder
+WORKDIR /app
 
-WORKDIR /app/backend
-EXPOSE 5001
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 
-CMD ["npm", "run", "dev"]
+RUN npm run build
+
+FROM node:20 AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+
+# only copy public if it exists
+RUN mkdir -p public
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
