@@ -1,0 +1,27 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Build / artifacts
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Prisma client artifacts
+.prisma/
+prisma/dev.db
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/

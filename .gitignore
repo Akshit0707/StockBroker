@@ -1,0 +1,31 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Next.js
+.next/
+out/
+.vercel/
+.next/cache
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Build / cache
+dist/
+.build/
+.cache/
+.parcel-cache/
+
+# Logs
+*.log
+coverage/
+
+# IDE
+.vscode/
+.idea/
+
+notes/

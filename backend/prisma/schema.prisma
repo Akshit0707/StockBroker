@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String   @map("password_hash") 
+  firstName String   @map("first_name") 
+  lastName  String   @map("last_name") 
+  balance   Float    @default(10000000)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  holdings   Holding[]
+  orders     Order[]
+  portfolios Portfolio[]
+
+  @@map("users")
+}
+
+model Holding {
+  id           String   @id @default(uuid())
+  userId       String
+  symbol       String
+  quantity     Int
+  averagePrice Float
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, symbol])
+  @@index([userId])
+  @@map("holdings")
+}
+
+model Order {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  stockId     String   @map("stock_id")
+  orderType   String   @map("order_type")
+  status      String   @default("pending")
+  price       Float
+  quantity    Int
+  filledQty   Int      @default(0) @map("filled_quantity")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stock      Stock   @relation(fields: [stockId], references: [id], onDelete: Cascade)
+  buyTrades  Trade[] @relation("BuyTrades")
+  sellTrades Trade[] @relation("SellTrades")
+
+  @@index([userId])
+  @@index([status])
+  @@index([stockId])
+  @@map("orders")
+}
+
+model Trade {
+  id          String   @id @default(uuid())
+  buyOrderId  String   @map("buy_order_id")
+  sellOrderId String   @map("sell_order_id")
+  stockId     String   @map("stock_id")
+  price       Float
+  quantity    Int
+  executedAt  DateTime @default(now()) @map("executed_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  buyOrder  Order @relation("BuyTrades", fields: [buyOrderId], references: [id])
+  sellOrder Order @relation("SellTrades", fields: [sellOrderId], references: [id])
+
+  @@map("trades")
+}
+
+model Portfolio {
+  id              String   @id @default(uuid())
+  userId          String   @map("user_id")
+  stockId         String   @map("stock_id")
+  quantity        Int
+  averageBuyPrice Float    @map("average_buy_price")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stock Stock @relation(fields: [stockId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, stockId])
+  @@map("portfolio")
+}
+
+model Stock {
+  id            String   @id
+  symbol        String   @unique
+  name          String
+  currentPrice  Float?
+  previousClose Float?
+  openPrice     Float?
+  changePercent Float?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  portfolios Portfolio[]
+  orders Order[]
+  @@map("stocks")
+  
+}

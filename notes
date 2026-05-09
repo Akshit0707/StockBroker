@@ -1,0 +1,57 @@
+dotenv.config()- loads env variables in ur app.
+
+ON DELETE CASCADE - means if the user_id is deleted from users table then all rows related to that user will be deleted from this table also.
+
+await query- we write this bcz this query first should wait for the prev query to finish then execute this one.
+
+BIGINT for price- used in trading apps as its more safe and faster stores price as paise/cents it is just a simple 8-byte no., whereas in Decimal it stores as metadata+precision.
+
+UNIQUE- constraint used on combination in this one portfolio row per user per stock
+
+redisCLient- regular client for get/set/publish operations.
+
+ttl= how much time before redis deletes it ;   EX- expire after n seconds
+
+<T>- type parameter means i dont know what will parse will become the type of object parsed. 
+
+(req, res, next) — this signature is required for Express middleware
+
+in user model we write 2 ways of finding user by email and by id bcz dueing login we need email to check the user in db and while authentication through jwt token we need id to search.
+
+Salt_Rounds- means how many times a password will be hashed or bcrypted. 
+
+We write id as string bcz we are using UUId which is globally unique
+
+client: database connection instance from PG lib PoolCLient , it supports transac. and ensure atomic operation, if one query fails everything rollsback. 
+
+Types- interface, used for structure of data, exists only at compile time
+Models- actual runtime code(classes, functions), used to interact with db
+
+spread in orderbook means diffrence b/w best buying price and best selling price
+
+interceptor in frontend acts a middleware runs before every req to attach it to jwt token
+
+join stock_room- to get a price update for a specific stock we join stock room,    server sends updates for stocks client has subscribed too.
+
+FC- function component
+<Outlet / >iwhere React Router renders the current page component
+
+useState- whenever u need to store data that changes over time and want ur UI to update automatically in respond to those changes
+useEffect- used to synchronize a component with systems outside of react control
+
+useCallback- to store a function definition to avoid calling or refering to a new function everytime page rerenders
+
+useEffetc({},[])- means empty array run only once mount
+
+e- event object automatically changes when an even input changes
+React.ChangeEvent- TypeScript type provided by React that describes a change event.
+<HTMLINPUTELEMENT>- specifies which element triggered event
+
+
+...prev= spread operation copies existing value
+
+RegisterValidation- zod schema that defines shape of data
+
+z.infer<typeof RegisterValidation>- ts extarcts type from schema which fives RegisterFormData
+
+axios- used to make Http requests to backend, we can use fetch() but it improves developer experience, no need for json() it automatically converts json into js objects
