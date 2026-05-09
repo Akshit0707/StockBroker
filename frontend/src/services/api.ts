@@ -1,10 +1,10 @@
 import axios from 'axios';
 import type { InternalAxiosRequestConfig } from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'https://stockbroker-production.up.railway.app/api';
 if (!API_BASE_URL) throw new Error('NEXT_PUBLIC_API_URL is not set');
 
-// axios example
 export const api = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true,
