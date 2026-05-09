@@ -88,7 +88,7 @@ export const orderApi = {
 };
 
 export const tradeApi = {
-  getTrades: (p0: string) => api.get('/trades'),
+  getTrades: (symbol?: string) => api.get('/trades'),
   getUserTrades: (userId?: string) =>
     api.get('/trades/user', { params: userId ? { userId } : {} }),
   getStockTrades: (stockId: string) => api.get(`/trades/stock/${stockId}`),
