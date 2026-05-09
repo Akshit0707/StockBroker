@@ -9,6 +9,9 @@ RUN npm ci
 # copy backend source
 COPY backend/ ./
 
+# generate Prisma client before build/start
+RUN npx prisma generate --schema=./prisma/schema.prisma
+
 # build + run
 RUN npm run build
 EXPOSE 5001
