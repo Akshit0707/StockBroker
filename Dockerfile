@@ -14,6 +14,8 @@ WORKDIR /app/backend
 COPY backend/package*.json ./
 RUN npm install
 COPY backend/ ./
+# generate Prisma client so @prisma/client is available in the image
+RUN npx prisma generate --schema=./prisma/schema.prisma
 
 # Runtime
 FROM node:20
