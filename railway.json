@@ -4,5 +4,17 @@
   },
   "deploy": {
     "startCommand": "npm run dev"
+  },
+  "services": {
+    "frontend": {
+      "builder": "dockerfile",
+      "dockerfilePath": "frontend/Dockerfile",
+      "rootDirectory": "frontend"
+    },
+    "backend": {
+      "builder": "dockerfile",
+      "dockerfilePath": "backend/Dockerfile",
+      "rootDirectory": "backend"
+    }
   }
 }
