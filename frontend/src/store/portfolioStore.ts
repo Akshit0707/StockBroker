@@ -1,10 +1,11 @@
-import { Portfolio, PortfolioHolding } from "../types/portfolio";
+
 import { create } from "zustand";
 import { portfolioApi } from "../services/api";
+import { Holding, PortfolioData } from "../types";
 
 interface PortfolioStore {
-  portfolio: Portfolio | null;
-  holdings: PortfolioHolding[];
+  portfolio: PortfolioData | null;
+  holdings: Holding[];
   isLoading: boolean;
   error: string | null;
   

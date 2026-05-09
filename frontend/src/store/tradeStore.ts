@@ -48,7 +48,7 @@ const useTradeStore= create<TradeStore>((set)=>({
     fetchRecentTrades:async()=>{
         set({isLoadingTrades:true, errorTrades:null});
         try{
-            const response = await tradeApi.getRecentTrades('AAPL');
+            const response = await tradeApi.getTrades('AAPL');
             set({recentTrades:await response.data, isLoadingTrades:false});
         }catch(error){
             set({errorTrades:'Failed to fetch recent trades', isLoadingTrades:false});
