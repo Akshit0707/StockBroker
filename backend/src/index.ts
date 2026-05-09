@@ -21,12 +21,13 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: [
+    'http://localhost:3000',
+    'https://genuine-love-production-bcb5.up.railway.app',
+  ],
   credentials: true,
 }));
 app.options('*', cors());
-
-
 
 app.use(express.static(path.join(__dirname, '../public')));
 

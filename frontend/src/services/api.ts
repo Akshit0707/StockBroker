@@ -1,13 +1,17 @@
 import axios from 'axios';
 import type { InternalAxiosRequestConfig } from 'axios';
 
-const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api',
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+if (!API_BASE_URL) throw new Error('NEXT_PUBLIC_API_URL is not set');
+
+// axios example
+export const api = axios.create({
+  baseURL: API_BASE_URL,
+  withCredentials: true,
 });
+
+const WS_URL = process.env.NEXT_PUBLIC_WS_URL;
+if (!WS_URL) throw new Error('NEXT_PUBLIC_WS_URL is not set');
 
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
