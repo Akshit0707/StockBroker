@@ -1,29 +1,15 @@
-FROM node:20 AS deps
-WORKDIR /app
+FROM node:20
 
-COPY package*.json ./
-RUN npm install
+WORKDIR /app/backend
 
-FROM node:20 AS builder
-WORKDIR /app
+# copy backend package manifests
+COPY backend/package*.json ./
+RUN npm ci
 
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+# copy backend source
+COPY backend/ ./
 
+# build + run
 RUN npm run build
-
-FROM node:20 AS runner
-WORKDIR /app
-
-ENV NODE_ENV=production
-
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
-
-# only copy public if it exists
-RUN mkdir -p public
-
-EXPOSE 3000
-
+EXPOSE 5001
 CMD ["npm", "start"]
