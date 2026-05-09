@@ -50,6 +50,20 @@ services:
     networks:
       - stock-app-network
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: stock-app-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:5001
+    depends_on:
+      - backend
+    networks:
+      - stock-app-network
+
 volumes:
   postgres_data:
   redis_data:
