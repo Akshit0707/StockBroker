@@ -12,6 +12,7 @@ import { startPriceUpdater } from './api/services/priceUpdate';
 import { initializeWebSocket } from './websocket';
 import cors from 'cors';
 import authRouter from './api/routes/authRoute';
+import path from 'path';
 
 dotenv.config();
 const PORT = process.env.PORT || 5001;
@@ -24,11 +25,24 @@ app.use(cors({
   credentials: true,
 }));
 app.options('*', cors());
+
+
+
+app.use(express.static(path.join(__dirname, '../public')));
+
 app.use('/api/auth', authRouter);
 app.use(portfolioRouter);             
 app.use(stocksRouter);                
 app.use(tradesRouter);
 app.use('/api/orders', orderRouter);
+
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/_next/static/index.html'), (err) => {
+    if (err) res.status(404).json({ success: false, message: 'Not found' });
+  });
+});
+
 const startServer = async (): Promise<void> => {
   try {
     console.log('Connecting to database...');
