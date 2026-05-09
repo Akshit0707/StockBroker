@@ -4,6 +4,8 @@ WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/ ./
+# ensure public exists so later COPY won't fail
+RUN mkdir -p public
 RUN npm run build
 
 # Build backend
