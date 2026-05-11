@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://genuine-love-production-bcb5.up.railway.app',
+    'https://trade-suite.up.railway.app/',
   ],
   credentials: true,
 }));
